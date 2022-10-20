@@ -1,0 +1,131 @@
+
+ Registro curricular de estudiantes 2022 
+Pre primaria 
+1. Destrezas de aprendizaje. **
+2. Comunicación y Lenguaje. **
+3. Medio Social y Natural. **
+4. Expresión Artística. **
+5. Educación Física. **
+6. Kaqchikel. **
+7. Educación Cristiana. **
+
+Primero Primaria. 
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+9. Matemáticas. **
+3. Medio Social y Natural. **
+4. Expresión Artística. **
+5. Educación Física. **
+10. Formación Ciudadana. **
+7. Educación Cristiana. **
+
+Segundo Primaria. 
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+9. Matemáticas. **
+3. Medio Social y Natural. **
+4. Expresión Artística. **
+5. Educación Física. **
+10. Formación Ciudadana. **
+7. Educación Cristiana. **
+
+Tercero Primaria 
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+9. Matemáticas. **
+3. Medio Social y Natural. **
+4. Expresión Artística. **
+5. Educación Física. **
+10. Formación Ciudadana. **
+7. Educación Cristiana. **
+
+Cuarto Primaria 
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+9. Matemáticas. **
+11. Ciencias Sociales. **
+12. Ciencias Naturales y Tecnología. **
+4. Expresión Artística. **
+5. Educación Física. **
+10. Formación Ciudadana. **
+13. Productividad y Desarrollo. **
+7. Educación Cristiana. **
+
+Quinto Primaria 
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+9. Matemáticas. **
+11. Ciencias Sociales. **
+12. Ciencias Naturales y Tecnología. **
+4. Expresión Artística. **
+5. Educación Física. **
+10. Formación Ciudadana. **
+13. Productividad y Desarrollo. **
+7. Educación Cristiana. **
+
+Sexto Primaria 
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+9. Matemáticas. **
+11. Ciencias Sociales. **
+12. Ciencias Naturales y Tecnología. **
+4. Expresión Artística. **
+5. Educación Física. **
+10. Formación Ciudadana. **
+13. Productividad y Desarrollo. **
+7. Educación Cristiana. **
+
+Primero Básico 
+9. Matemáticas. **
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+14. Ciencias Naturales. **
+15. Ciencias Sociales y Formación Ciudadana. **
+16. Educación Música. 
+17. Artes Visuales. 
+18. Teatro. 
+19. Danza 
+20. Emprendimiento para la productividad. 
+21. Tecnología de aprendizaje y la comunicación. 
+5. Educación Física. **
+7. Educación Cristiana. **
+
+Segundo Básico 
+9. Matemáticas. **
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+14. Ciencias Naturales. **
+15. Ciencias Sociales y Formación Ciudadana. **
+16. Educación Música. 
+17. Artes Visuales. 
+18. Teatro. 
+19. Danza 
+20. Emprendimiento para la productividad. 
+21. Tecnología de aprendizaje y la comunicación. 
+5. Educación Física. **
+7. Educación Cristiana. **
+
+Tercero Básico 
+9. Matemáticas. **
+6. Kaqchikel. **
+2. Comunicación y Lenguaje. **
+8. Idioma Ingles. **
+14. Ciencias Naturales. **
+15. Ciencias Sociales y Formación Ciudadana. **
+16. Educación Música. 
+17. Artes Visuales. 
+18. Teatro. 
+19. Danza 
+20. Emprendimiento para la productividad. 
+21. Tecnología de aprendizaje y la comunicación. 
+5. Educación Física. **
+7. Educación Cristiana. **
+
