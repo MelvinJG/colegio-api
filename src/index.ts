@@ -32,7 +32,7 @@ class Server{
         this.app.use('/api/producto',productoRoute);
         this.app.use('/api/empleado',empleadoRoute);
         this.app.use('/api/pago',pagoRoute);
-        this.app.use('/api/usuario',userRoute);
+        this.app.use('/api/usuarioAuth',userRoute);
     }
     start(): void{
         this.app.listen(this.app.get('port'), () => {
