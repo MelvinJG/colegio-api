@@ -386,6 +386,8 @@ CREATE TABLE t_Usuario(
 -- id_usuario - ES EL CUI O DPI QUE LIGA AL USUARIO A SU REGISTRO DE LAS TABLAS (EMPLEADO O ALUMNO)
 INSERT INTO t_Usuario VALUES('melvin_pro','admin',null,'admin');
 INSERT INTO t_Usuario VALUES('admin','admin',null,'admin');
+INSERT INTO t_Usuario VALUES('user','user','Alum1','user');
+INSERT INTO t_Usuario VALUES('prof','prof','EMP-123','prof');
 --#endregion
 
 --ROLES --
@@ -393,10 +395,17 @@ INSERT INTO t_Usuario VALUES('admin','admin',null,'admin');
 --prof - PROFESOR - a la misma TABLA
 --user - ALUMNO
 
+SELECT U.userName, U.roleId, U.id_usuario, E.foto AS 'EmpFoto', A.foto AS 'AlumFoto'
+FROM t_Usuario U
+LEFT JOIN t_Empleado E ON U.id_usuario = E.dpi_Empleado
+LEFT JOIN t_Alumno A ON U.id_usuario = A.cui_Alumno;
 
 
 
+-- rxjs
 
+-- Unidad 3, 4 y 5
+-- ReadTheory 20 pruebas 5 por semana
 
 
 
