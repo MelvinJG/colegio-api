@@ -14,6 +14,7 @@ class empleadoRoute {
         this.router.get('/getEmpleadoDPI/:dpiEmpleado',EmpleadoController.getEmpleadoPorDPI);
         this.router.delete('/deleteEmpleado/:dpiEmpleado',EmpleadoController.deleteEmpleado);
         this.router.get('/getDetalleUltimoPagoEmpleado/:dpiEmpleado',EmpleadoController.getDetalleUltimoPagoEmpleado);
+        this.router.get('/getProfesoresPorGrado/:idGrado',EmpleadoController.getProfesoresPorGrado);
     }
 }
 const EmpleadoRoute = new empleadoRoute();

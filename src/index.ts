@@ -7,6 +7,7 @@ import productoRoute from './routes/productoRoute';
 import empleadoRoute from './routes/empleadoRoute';
 import pagoRoute from './routes/pagoRoute';
 import userRoute from './routes/usuarioRoute';
+import tareaAnuncioRoute from './routes/tareaAnuncioRoute';
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -33,6 +34,7 @@ class Server{
         this.app.use('/api/empleado',empleadoRoute);
         this.app.use('/api/pago',pagoRoute);
         this.app.use('/api/usuarioAuth',userRoute);
+        this.app.use('/api/anuncioTarea',tareaAnuncioRoute);
     }
     start(): void{
         this.app.listen(this.app.get('port'), () => {

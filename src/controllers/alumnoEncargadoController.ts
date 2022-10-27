@@ -153,7 +153,7 @@ class alumnoEncargadoController {
                 FROM t_Alumno A
                 INNER JOIN t_Encargado E
                 ON A.dpi_Encargado = E.dpi_Encargado
-                WHERE grado_Id = ?`, req.params.idGrado);
+                WHERE A.grado_Id = ?`, req.params.idGrado);
             if(queryResponse.length <= 0){
                 r = Message._404_NOT_FOUND;
                 r.model!.message = "Alumnos No Encontrados"

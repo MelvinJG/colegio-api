@@ -170,6 +170,32 @@ class empleadoController {
             res.status(estado).json(response);
         }
     }
+
+    async getProfesoresPorGrado(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT E.nombre, E.foto, E.no_Cel, E.correo, date_format(E.fecha_Nac,"%d-%m-%Y") AS fecha_Nac, C.nombre_Curso
+            FROM t_Empleado E
+            INNER JOIN t_Interseccion_Prof_Grado_Curso IPGC
+            ON E.dpi_Empleado = IPGC.dpi_Empleado
+            INNER JOIN t_Curso_Materia C
+            ON IPGC.curso_Id = C.curso_Id
+            WHERE IPGC.grado_Id = ?`, req.params.idGrado);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Profesor (es) no asignados."
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else { 
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
 }
 
 const EmpleadoController = new empleadoController();

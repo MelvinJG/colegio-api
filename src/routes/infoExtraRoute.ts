@@ -13,6 +13,7 @@ class infoExtraRoute {
     config():void {        
         /*RUTA PADRE /api/infoExtra */
         this.router.get('/getGrados',InfoExtraController.getGrados);
+        this.router.get('/getGradosPROF/:dpiProfesor',InfoExtraController.getGradosPROF);
         this.router.get('/getCursosPorGrado/:grado_Id',InfoExtraController.getCursosPorIDGrado);
         this.router.get('/getMeses',InfoExtraController.getMeses);
         this.router.get('/getMesPorID/:mes_Id',InfoExtraController.getMesPorID);

@@ -31,6 +31,31 @@ class infoExtraController {
         }
     }
 
+    async getGradosPROF(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT * 
+            FROM t_Grado WHERE grado_Id IN (SELECT IPGC.grado_Id
+                FROM t_Empleado E
+                INNER JOIN t_Interseccion_Prof_Grado_Curso IPGC
+                ON E.dpi_Empleado = IPGC.dpi_Empleado
+                WHERE E.dpi_Empleado = ?)`, req.params.dpiProfesor);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Grados No Asignados";
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
     async getCursosPorIDGrado(req: Request, res: Response){
         try{
             const queryResponse = await db.query(`SELECT C.curso_Id, C.nombre_Curso 

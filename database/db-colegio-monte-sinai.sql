@@ -368,14 +368,7 @@ CREATE TABLE t_Pago_Salarial(
 );
 --#endregion
 
-
-
-
-
-
---#region TABLA PAGO SALARIAL
--- SE ELIMINO CAMPO json_Recibo VARCHAR(999) NOT NULL, tipo_pago_Id ES EL MOTIVO DEL PAGO
-/*Pago Salarial*/
+--#region TABLA USUARIOS
 CREATE TABLE t_Usuario(
     userName VARCHAR(20) NOT NULL PRIMARY KEY,
     pass VARCHAR(20) NOT NULL,
@@ -384,21 +377,53 @@ CREATE TABLE t_Usuario(
 );
 -- CUANDO ES ADMI NNO IMPORTA SI TIENE REGISTRO PREVIO EN LAS TABLAS (EMPLEADO O ALUMNO) PORQUE PUEDE VER TODO SIN ESTAR LIGADO AL DPI O CUI
 -- id_usuario - ES EL CUI O DPI QUE LIGA AL USUARIO A SU REGISTRO DE LAS TABLAS (EMPLEADO O ALUMNO)
-INSERT INTO t_Usuario VALUES('melvin_pro','admin',null,'admin');
+INSERT INTO t_Usuario VALUES('melvin_pro','admin',null,'admin'); -- NO EXISTE
 INSERT INTO t_Usuario VALUES('admin','admin',null,'admin');
+INSERT INTO t_Usuario VALUES('prof','prof','EMP-321','prof');
+INSERT INTO t_Usuario VALUES('ING','ING','ING','prof');
 INSERT INTO t_Usuario VALUES('user','user','Alum1','user');
-INSERT INTO t_Usuario VALUES('prof','prof','EMP-123','prof');
---#endregion
-
 --ROLES --
 --admin - ADMINISTRADOR  - a la misma TABLA
 --prof - PROFESOR - a la misma TABLA
 --user - ALUMNO
 
-SELECT U.userName, U.roleId, U.id_usuario, E.foto AS 'EmpFoto', A.foto AS 'AlumFoto'
-FROM t_Usuario U
-LEFT JOIN t_Empleado E ON U.id_usuario = E.dpi_Empleado
-LEFT JOIN t_Alumno A ON U.id_usuario = A.cui_Alumno;
+--#endregion
+
+--****PROFESORES****
+
+--#region TABLA ANUNCIO Y TAREAS
+/*PUBLICAR ANUNCIO O TAREA*/
+CREATE TABLE t_Anuncio_Tarea(
+    anuncio_Tarea_Id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(8) NOT NULL,
+    titulo VARCHAR(50) NOT NULL,
+    grado_Id INT NOT NULL,
+    descripcion VARCHAR(250) NOT NULL,
+    curso_Id INT NULL,
+    punteo INT NULL,
+    dpi_Empleado VARCHAR(20) NOT NULL,
+    calificado VARCHAR(3) NULL,
+    fecha_Entrega DATE NULL,
+    fecha_Vencimiento DATE NULL,
+    visibilidad_Publicacion VARCHAR(3) NULL,
+    FOREIGN KEY (grado_Id) REFERENCES t_Grado(grado_Id),
+    FOREIGN KEY (dpi_Empleado) REFERENCES t_Empleado(dpi_Empleado),
+    FOREIGN KEY (curso_Id) REFERENCES t_Curso_Materia(curso_Id)
+);
+
+
+--#endregion 
+
+
+SELECT A.tipo, A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo
+            FROM t_Anuncio_Tarea A
+            LEFT JOIN t_Grado G
+            ON A.grado_Id = G.grado_Id
+            LEFT JOIN t_Curso_Materia C
+            ON A.curso_Id = C.curso_Id
+            WHERE A.dpi_Empleado = 'EMP-321';
+
+
 
 
 
@@ -410,16 +435,49 @@ LEFT JOIN t_Alumno A ON U.id_usuario = A.cui_Alumno;
 
 
 
+-- import { UserAuthService } from '../../../services/userAuth/user-auth.service';
+
+-- private API_USER_AUTH: UserAuthService
+
+-- this.API_USER_AUTH.ShowNavigation.next(true);
+
+-- C# C# E C# G#
+-- C# E C# G# A C# F# 
+-- G# C# E F#-- E  - C - EMPIEZA
+
+-- G# G G# G G# G
+
+
+-- E E 
+-- C# D# E F# E D# D#
+-- C# E E D# C#
+
+-- E E 
+-- C# D# E F# ED#E D# D# D# D#
+
+
+-- C B A G F
+
+
+-- E F G E F G FF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --aqui vamos
-
-
-
-
-
-
-
-
-
 
 
 
@@ -445,23 +503,7 @@ CREATE TABLE t_Comprobante_De_Pago(
     FOREIGN KEY (mes_Id) REFERENCES t_Mes(mes_Id),
     FOREIGN KEY (estado_Id) REFERENCES t_Estado(estado_Id)
 )
-/*PUBLICAR ANUNCIO O TAREA*/
-CREATE TABLE t_Anuncio_Tarea(
-    anuncio_Tarea_Id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    tipo VARCHAR(8) NOT NULL,
-    titulo VARCHAR(50) NOT NULL,
-    grado_Id INT NOT NULL,
-    descripcion VARCHAR(250) NOT NULL,
-    curso VARCHAR(50) NULL,
-    punteo INT NULL,
-    dpi_Personal VARCHAR(20) NOT NULL,
-    calificado CHAR(1) NULL,
-    fecha_Entrega DATE NULL,
-    fecha_Vencimiento DATE NOT NULL,
-    visibilidad_Publicacion CHAR(1) NULL,
-    FOREIGN KEY (grado_Id) REFERENCES t_Grado(grado_Id),
-    FOREIGN KEY (dpi_Personal) REFERENCES t_Personal(dpi_Personal)
-)
+
 /*CALIFICAR TAREA*/
 CREATE TABLE t_Calificar_Tarea(
     tarea_Id INT NOT NULL,
