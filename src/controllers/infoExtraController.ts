@@ -56,6 +56,30 @@ class infoExtraController {
         }
     }
 
+    async getCursosPorGradoPROF(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT CM.curso_Id, CM.nombre_Curso
+                FROM t_Interseccion_Prof_Grado_Curso PC
+                INNER JOIN t_Curso_Materia CM
+                ON PC.curso_Id = CM.curso_Id
+                WHERE PC.dpi_Empleado = '${req.params.dpiProfesor}' AND PC.grado_Id = ${req.params.grado_Id}`);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Cursos No Encontrados";
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
     async getCursosPorIDGrado(req: Request, res: Response){
         try{
             const queryResponse = await db.query(`SELECT C.curso_Id, C.nombre_Curso 

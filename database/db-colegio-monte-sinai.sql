@@ -415,14 +415,6 @@ CREATE TABLE t_Anuncio_Tarea(
 --#endregion 
 
 
-SELECT A.tipo, A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo
-            FROM t_Anuncio_Tarea A
-            LEFT JOIN t_Grado G
-            ON A.grado_Id = G.grado_Id
-            LEFT JOIN t_Curso_Materia C
-            ON A.curso_Id = C.curso_Id
-            WHERE A.dpi_Empleado = 'EMP-321';
-
 
 
 
@@ -443,7 +435,7 @@ SELECT A.tipo, A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo
 
 -- C# C# E C# G#
 -- C# E C# G# A C# F# 
--- G# C# E F#-- E  - C - EMPIEZA
+-- G# C# E F# E  - C - EMPIEZA
 
 -- G# G G# G G# G
 

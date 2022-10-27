@@ -42,7 +42,7 @@ class tareaAnuncioController {
                 statusResponse = Message._422_INTERNAL_ERROR.code;
             } else {
                 r = Message._200_OPERATION_SUCCESSFUL;
-                r.model!.data = 'Publicació Realizada Correctamente';
+                r.model!.data = 'Publicación Realizada Correctamente';
                 statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
             }
             res.status(statusResponse).json(r.model);
