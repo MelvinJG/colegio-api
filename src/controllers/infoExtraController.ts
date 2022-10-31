@@ -56,6 +56,29 @@ class infoExtraController {
         }
     }
 
+    async getGradosALUM(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT * 
+                FROM t_Grado WHERE grado_Id IN (SELECT A.grado_Id
+                    FROM t_Alumno A
+                    WHERE A.cui_Alumno = ?)`, req.params.cuiAlumno);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Grado No Asignado";
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
     async getCursosPorGradoPROF(req: Request, res: Response){
         try{
             const queryResponse = await db.query(`SELECT CM.curso_Id, CM.nombre_Curso

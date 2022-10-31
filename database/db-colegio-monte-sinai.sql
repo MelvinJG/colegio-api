@@ -414,6 +414,15 @@ CREATE TABLE t_Anuncio_Tarea(
 
 --#endregion 
 
+SELECT A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo, A.calificado
+            FROM t_Anuncio_Tarea A
+            LEFT JOIN t_Grado G
+            ON A.grado_Id = G.grado_Id
+            LEFT JOIN t_Curso_Materia C
+            ON A.curso_Id = C.curso_Id
+            WHERE A.dpi_Empleado = ? AND A.tipo = 'TAREA'
+
+
 
 
 

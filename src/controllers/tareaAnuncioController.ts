@@ -53,6 +53,80 @@ class tareaAnuncioController {
         }
     }
 
+    async getTareas(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo, A.calificado
+            FROM t_Anuncio_Tarea A
+            LEFT JOIN t_Grado G
+            ON A.grado_Id = G.grado_Id
+            LEFT JOIN t_Curso_Materia C
+            ON A.curso_Id = C.curso_Id
+            WHERE A.dpi_Empleado = ? AND A.tipo = 'TAREA'`, req.params.dpiProfesor);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Ninguna Tarea Publicada.";
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
+    async getTareasPorGrado(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT A.titulo, A.descripcion, C.nombre_Curso, A.punteo, A.calificado, date_format(A.fecha_Entrega,"%d-%m-%Y") AS fecha_Entrega
+                FROM t_Anuncio_Tarea A
+                LEFT JOIN t_Curso_Materia C
+                ON A.curso_Id = C.curso_Id
+                WHERE A.tipo = 'TAREA'
+                AND A.grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = ?)`, req.params.cuiAlumno);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Ninguna Tarea Encontrada.";
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
+    async getAnunciosPorGrado(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT titulo, descripcion
+                FROM t_Anuncio_Tarea
+                WHERE tipo = 'ANUNCIO'
+                AND grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = ?)`, req.params.cuiAlumno);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Ningún Anuncio Encontrado.";
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
 }
 
 const TareaAnuncioController = new tareaAnuncioController();
