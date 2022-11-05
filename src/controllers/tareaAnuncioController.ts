@@ -16,7 +16,8 @@ class tareaAnuncioController {
             ON A.grado_Id = G.grado_Id
             LEFT JOIN t_Curso_Materia C
             ON A.curso_Id = C.curso_Id
-            WHERE A.dpi_Empleado = ?`, req.params.dpiProfesor);
+            WHERE IFNULL(fecha_Vencimiento,CURDATE() + INTERVAL 1 DAY) >= CURDATE()
+            AND A.dpi_Empleado = ?`, req.params.dpiProfesor);
             if(queryResponse.length <= 0){
                 r = Message._404_NOT_FOUND;
                 r.model!.message = "Ningun Anuncio o Tarea Publicada.";
@@ -55,7 +56,7 @@ class tareaAnuncioController {
 
     async getTareas(req: Request, res: Response){
         try{
-            const queryResponse = await db.query(`SELECT A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo, A.calificado
+            const queryResponse = await db.query(`SELECT A.anuncio_Tarea_Id, A.titulo, A.descripcion, G.grado, G.grado_Id, C.nombre_Curso, A.punteo, A.calificado
             FROM t_Anuncio_Tarea A
             LEFT JOIN t_Grado G
             ON A.grado_Id = G.grado_Id
@@ -81,7 +82,7 @@ class tareaAnuncioController {
 
     async getTareasPorGrado(req: Request, res: Response){
         try{
-            const queryResponse = await db.query(`SELECT A.titulo, A.descripcion, C.nombre_Curso, A.punteo, A.calificado, date_format(A.fecha_Entrega,"%d-%m-%Y") AS fecha_Entrega
+            const queryResponse = await db.query(`SELECT A.anuncio_Tarea_Id ,A.titulo, A.descripcion, C.nombre_Curso, A.punteo, A.calificado, date_format(A.fecha_Entrega,"%d-%m-%Y") AS fecha_Entrega
                 FROM t_Anuncio_Tarea A
                 LEFT JOIN t_Curso_Materia C
                 ON A.curso_Id = C.curso_Id
@@ -109,6 +110,7 @@ class tareaAnuncioController {
             const queryResponse = await db.query(`SELECT titulo, descripcion
                 FROM t_Anuncio_Tarea
                 WHERE tipo = 'ANUNCIO'
+                AND fecha_Vencimiento >= CURDATE()
                 AND grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = ?)`, req.params.cuiAlumno);
             if(queryResponse.length <= 0){
                 r = Message._404_NOT_FOUND;
@@ -127,6 +129,52 @@ class tareaAnuncioController {
         }
     }
 
+    async calificarTarea(req: Request, res: Response){
+        try{
+            const tareaID = req.body.anuncio_Tarea_Id;
+            const queryResponse = await db.query(`INSERT INTO t_Calificacion_Tarea SET ? `,[req.body]);
+            if(queryResponse.length <= 0 || queryResponse.affectedRows != 1){
+                r = Message._422_INTERNAL_ERROR;
+                statusResponse = Message._422_INTERNAL_ERROR.code;
+            } else {
+                db.query(`UPDATE t_Anuncio_Tarea SET calificado = 'SI' WHERE anuncio_Tarea_Id = ${tareaID}`);
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = 'Tarea Calificada Correctamente';
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
+    async getPunteoTarea(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT C.punteo_Tarea, C.observacion, A.punteo
+                FROM t_Calificacion_Tarea C
+                INNER JOIN t_Anuncio_Tarea A
+                ON C.anuncio_Tarea_Id = A.anuncio_Tarea_Id
+                WHERE C.anuncio_Tarea_Id = ${req.params.tareaID}
+                AND C.cui_Alumno = '${req.params.cuiAlumno}'`);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Tarea no Calificada.";
+                statusResponse = Message._404_NOT_FOUND.code;
+            }
+            else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse[0];
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
 }
 
 const TareaAnuncioController = new tareaAnuncioController();

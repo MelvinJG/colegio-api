@@ -382,6 +382,8 @@ INSERT INTO t_Usuario VALUES('admin','admin',null,'admin');
 INSERT INTO t_Usuario VALUES('prof','prof','EMP-321','prof');
 INSERT INTO t_Usuario VALUES('ING','ING','ING','prof');
 INSERT INTO t_Usuario VALUES('user','user','Alum1','user');
+INSERT INTO t_Usuario VALUES('7899','7899','7899','user');
+
 --ROLES --
 --admin - ADMINISTRADOR  - a la misma TABLA
 --prof - PROFESOR - a la misma TABLA
@@ -403,6 +405,7 @@ CREATE TABLE t_Anuncio_Tarea(
     punteo INT NULL,
     dpi_Empleado VARCHAR(20) NOT NULL,
     calificado VARCHAR(3) NULL,
+    fecha_Creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_Entrega DATE NULL,
     fecha_Vencimiento DATE NULL,
     visibilidad_Publicacion VARCHAR(3) NULL,
@@ -414,74 +417,27 @@ CREATE TABLE t_Anuncio_Tarea(
 
 --#endregion 
 
-SELECT A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo, A.calificado
-            FROM t_Anuncio_Tarea A
-            LEFT JOIN t_Grado G
-            ON A.grado_Id = G.grado_Id
-            LEFT JOIN t_Curso_Materia C
-            ON A.curso_Id = C.curso_Id
-            WHERE A.dpi_Empleado = ? AND A.tipo = 'TAREA'
-
-
-
-
-
-
-
--- rxjs
-
--- Unidad 3, 4 y 5
--- ReadTheory 20 pruebas 5 por semana
-
-
-
-
--- import { UserAuthService } from '../../../services/userAuth/user-auth.service';
-
--- private API_USER_AUTH: UserAuthService
-
--- this.API_USER_AUTH.ShowNavigation.next(true);
-
--- C# C# E C# G#
--- C# E C# G# A C# F# 
--- G# C# E F# E  - C - EMPIEZA
-
--- G# G G# G G# G
-
-
--- E E 
--- C# D# E F# E D# D#
--- C# E E D# C#
-
--- E E 
--- C# D# E F# ED#E D# D# D# D#
-
-
--- C B A G F
-
-
--- E F G E F G FF
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+--#region TABLA CALIFICAR TAREAS
+CREATE TABLE t_Calificacion_Tarea(
+    anuncio_Tarea_Id INT NOT NULL,
+    cui_Alumno VARCHAR(20) NOT NULL,
+    punteo_Tarea INT NOT NULL,
+    observacion VARCHAR(250) NULL,
+    fecha_Calificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (anuncio_Tarea_Id) REFERENCES t_Anuncio_Tarea(anuncio_Tarea_Id),
+    FOREIGN KEY (cui_Alumno) REFERENCES t_Alumno(cui_Alumno)
+);
+--#endregion
 
 
 --aqui vamos
 
-
-
+SELECT C.punteo_Tarea, C.observacion, A.punteo
+FROM t_Calificacion_Tarea C
+INNER JOIN t_Anuncio_Tarea A
+ON C.anuncio_Tarea_Id = A.anuncio_Tarea_Id
+WHERE C.anuncio_Tarea_Id = 1
+AND C.cui_Alumno = 'Alum1';
 
 
 

@@ -15,7 +15,7 @@ class alumnoEncargadoRoute {
         this.router.put('/updateEncargado/:dpiEncargado',AlumnoEncargadoController.updateEncargado);
         /*Operaciones Alumno*/
         this.router.post('/addAlumno',AlumnoEncargadoController.addAlumno); //inscribir 
-        // this.router.get('/getAlumnoCUI/:cuiAlumno',AlumnoEncargadoController.getAlumnoPorCUI);CREAR EN DADO CASO SE QUIERE ACTUALIZAR AL ALUMNO
+        this.router.get('/getAlumnoCUI/:cuiAlumno',AlumnoEncargadoController.getAlumnoPorCUI);
         this.router.get('/getDetalleUltimoPagoAlumno/:cuiAlumno',AlumnoEncargadoController.getDetalleUltimoPagoAlumno);
         this.router.get('/getAlumnosPorGrado/:idGrado',AlumnoEncargadoController.getAlumnosPorGrado);
         this.router.put('/updateAlumno/:cuiAlumno',AlumnoEncargadoController.updateAlumno);

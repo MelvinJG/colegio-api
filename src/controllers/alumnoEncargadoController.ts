@@ -145,7 +145,30 @@ class alumnoEncargadoController {
         }
     }
 
-    // async getAlumnoPorCUI(req: Request, res: Response){} PENDIENTE IGUAL AL DETALLE ULTIMO PAGO SOLO CAMIBA QUERY
+    async getAlumnoPorCUI(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT cui_Alumno, foto, nombre
+                FROM t_Alumno
+                WHERE cui_Alumno = ?`, req.params.cuiAlumno);
+            if(queryResponse.length <= 0){
+                r = Message._404_NOT_FOUND;
+                r.model!.message = "Alumno No Encontrado"
+                statusResponse = Message._404_NOT_FOUND.code;
+            } else if(queryResponse[1]){ //EJ. Cuando haya dos registron con mismo Id (No pasará por la primary key pero por si acaso XD)
+                r = Message._422_INTERNAL_ERROR;
+                statusResponse = Message._422_INTERNAL_ERROR.code;
+            } else { 
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse[0];
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
 
     async getAlumnosPorGrado(req: Request, res: Response){
         try{
