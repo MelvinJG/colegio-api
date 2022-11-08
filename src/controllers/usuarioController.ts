@@ -36,10 +36,12 @@ class userController {
     async singin(req: Request, res: Response){
         try{
             const {userName, pass} = req.body;
-            const queryResponse = await db.query(`SELECT U.userName, U.roleId, U.id_usuario, E.foto AS 'EmpFoto', A.foto AS 'AlumFoto'
-            FROM t_Usuario U
-            LEFT JOIN t_Empleado E ON U.id_usuario = E.dpi_Empleado
-            LEFT JOIN t_Alumno A ON U.id_usuario = A.cui_Alumno WHERE userName = ? AND pass = ?`, [userName, pass]);
+            const queryResponse = await db.query(`SELECT U.userName, U.roleId, U.id_usuario, E.foto AS 'EmpFoto', A.foto AS 'AlumFoto', E.nombre AS 'EmpName', A.nombre AS 'AlumName', G.mensualidad
+                FROM t_Usuario U
+                LEFT JOIN t_Empleado E ON U.id_usuario = E.dpi_Empleado
+                LEFT JOIN t_Alumno A ON U.id_usuario = A.cui_Alumno 
+                LEFT JOIN T_Grado G ON A.grado_Id = G.grado_Id
+                WHERE userName = ? AND pass = ?`, [userName, pass]);
             if(queryResponse.length <= 0){
                 r = Message._404_NOT_FOUND;
                 r.model!.message = "Usuario o Contraseña Incorrecta" //Usuario No Encontrado

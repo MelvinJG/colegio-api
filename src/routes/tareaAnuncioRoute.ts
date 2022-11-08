@@ -17,6 +17,10 @@ class tareaAnuncioRoute {
         this.router.get('/getTareasPorGrado/:cuiAlumno',TareaAnuncioController.getTareasPorGrado);
         this.router.get('/getAnunciosPorGrado/:cuiAlumno',TareaAnuncioController.getAnunciosPorGrado);
         this.router.get('/getPunteoTarea/:tareaID/:cuiAlumno',TareaAnuncioController.getPunteoTarea);
+        // Notas Finales
+        this.router.post('/subirNotasFinales',TareaAnuncioController.subirNotasFinales);
+        this.router.get('/validarNotasFinales/:cuiAlumno/:cursoID/:bimestre',TareaAnuncioController.validarNotasFinales);
+        this.router.get('/getNotasFinalesAlumno/:cuiAlumno/:bimestre',TareaAnuncioController.getNotasFinalesAlumno);
     }
 }
 const TareaAnuncioRoute = new tareaAnuncioRoute();

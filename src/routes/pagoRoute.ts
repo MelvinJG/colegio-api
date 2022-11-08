@@ -9,7 +9,13 @@ class pagoRoute {
 
     config():void {        
         /*RUTA PADRE /api/pago */
-        this.router.post('/realizarPago',PagoController.realizarPagoVariosADMIN); // Pagos a realizar: INSCRIPCION, COLEGIATURA AMBOS NIVELES Y SALARIO
+        this.router.post('/realizarPago',PagoController.realizarPagoVariosADMIN); // Pagos a realizar: INSCRIPCION, COLEGIATURA AMBOS NIVELES Y SALARI
+        this.router.post('/realizarPagoApp',PagoController.realizarPagoApp);
+        this.router.get('/getAllPagosApp',PagoController.getAllPagosApp);
+        this.router.get('/getPagosAppAlumno/:cuiAlumno',PagoController.getPagosAppAlumno);
+        this.router.get('/countAllPagosApp',PagoController.countAllPagosApp);
+        this.router.put('/cancelarEnvio/:comprobanteID',PagoController.cancelarEnvio);
+        this.router.put('/rechazarComprobante/:comprobanteID',PagoController.rechazarComprobante);
     }
 }
 const PagoRoute = new pagoRoute();

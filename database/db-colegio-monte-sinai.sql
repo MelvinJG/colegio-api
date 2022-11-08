@@ -330,7 +330,7 @@ CREATE TABLE t_Origen_Pago(
     origen_Pago VARCHAR(40) NOT NULL
 );
 INSERT INTO t_Origen_Pago VALUES(1,'PAGO (PRESENCIAL) EN ADMINISTRACIÓN');
-INSERT INTO t_Origen_Pago VALUES(2,'PAGO (VIRTUAL) DEPÓSITO BANCARIO');
+INSERT INTO t_Origen_Pago VALUES(2,'PAGO (VIRTUAL) DEPÓSITO O TRANSFERENCIA BANCARIA');
 --#endregion
 
 --#region TABLA PAGO INSCRIPCION Y COLEGIATURA
@@ -383,6 +383,9 @@ INSERT INTO t_Usuario VALUES('prof','prof','EMP-321','prof');
 INSERT INTO t_Usuario VALUES('ING','ING','ING','prof');
 INSERT INTO t_Usuario VALUES('user','user','Alum1','user');
 INSERT INTO t_Usuario VALUES('7899','7899','7899','user');
+INSERT INTO t_Usuario VALUES('111','111','111','user');
+INSERT INTO t_Usuario VALUES('2','2','2','user');
+
 
 --ROLES --
 --admin - ADMINISTRADOR  - a la misma TABLA
@@ -429,61 +432,105 @@ CREATE TABLE t_Calificacion_Tarea(
 );
 --#endregion
 
+--#region TABLA NOTAS FINALES
+CREATE TABLE t_Nota_Final(
+    cui_Alumno VARCHAR(20) NOT NULL,
+    curso_Id INT NULL,
+    punteo_Zona INT NOT NULL,
+    punteo_Examen INT NOT NULL,
+    punteo_Final INT NOT NULL,
+    bimestre INT NOT NULL,
+    fecha_Nota_Final TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cui_Alumno) REFERENCES t_Alumno(cui_Alumno),
+    FOREIGN KEY (curso_Id) REFERENCES t_Curso_Materia(curso_Id)
+);
+--#endregion
 
---aqui vamos
+--****ALUMNOS****
 
-SELECT C.punteo_Tarea, C.observacion, A.punteo
-FROM t_Calificacion_Tarea C
-INNER JOIN t_Anuncio_Tarea A
-ON C.anuncio_Tarea_Id = A.anuncio_Tarea_Id
-WHERE C.anuncio_Tarea_Id = 1
-AND C.cui_Alumno = 'Alum1';
-
-
-
-
-/*ESTADOS DEL ENVIO*/
+--#region TABLA ESTADOS COMPROBANTES DE PAGO APP
 CREATE TABLE t_Estado(
     estado_Id INT NOT NULL PRIMARY KEY,
     nombre VARCHAR(40) NOT NULL
-)
-/*COMPROBANTES DE PAGO*/
+);
+INSERT INTO t_Estado VALUES(1,'PENDIENTE DE APROBACIÓN');
+INSERT INTO t_Estado VALUES(2,'ACEPTADO');
+INSERT INTO t_Estado VALUES(3,'RECHAZADO');
+INSERT INTO t_Estado VALUES(4,'CANCELADO');
+--#endregion
+
+--#region TABLA ENVIOS DE COMPROBANTES DE PAGO APP
 CREATE TABLE t_Comprobante_De_Pago(
     comprobante_Id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     cui_Alumno VARCHAR(20) NOT NULL,
     mes_Id INT NOT NULL,
+    monto DECIMAL(10,2) NOT NULL,
     img_Comprobante VARCHAR(999) NOT NULL,
-    comentario_Envio VARCHAR(250) NULL,
     estado_Id INT NOT NULL,
     comentario_Respuesta VARCHAR(250) NULL,
+    fecha_Envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_Respuesta TIMESTAMP DEFAULT NULL,
+    fecha_Cancelado TIMESTAMP DEFAULT NULL,
+    usuario_Respuesta VARCHAR(50) NULL,
     FOREIGN KEY (cui_Alumno) REFERENCES t_Alumno(cui_Alumno),
     FOREIGN KEY (mes_Id) REFERENCES t_Mes(mes_Id),
     FOREIGN KEY (estado_Id) REFERENCES t_Estado(estado_Id)
-)
+);
+--#endregion
 
-/*CALIFICAR TAREA*/
-CREATE TABLE t_Calificar_Tarea(
-    tarea_Id INT NOT NULL,
-    cui_Alumno VARCHAR(20) NOT NULL,
-    calificacion INT NOT NULL,
-    comentario VARCHAR(100) NULL,
-    FOREIGN KEY (cui_Alumno) REFERENCES t_Alumno(cui_Alumno),
-    FOREIGN KEY (tarea_Id) REFERENCES t_Anuncio_Tarea(anuncio_Tarea_Id)
-)
-/*BIMESTRE*/
-CREATE TABLE t_Bimestre(
 
-)
 
-/*PENDIENTE NOTA FINAL Y CURSOS*/
+--AQUI VAMOS
 
-/*Nota Final*/
-CREATE TABLE t_Nota_Final(
-    cui_Alumno VARCHAR(20) NOT NULL,
-    bimestre_Id INT NOT NULL,
-    
-    FOREIGN KEY (cui_Alumno) REFERENCES t_Alumno(cui_Alumno),
-)
+
+--AQUI VAMOS
+
+
+
+
+SELECT C.nombre_Curso, IFNULL(N.punteo_Zona,NULL), IFNULL(N.punteo_Examen,NULL), IFNULL(N.punteo_Final,NULL)
+FROM t_Curso_Materia C
+LEFT JOIN t_Nota_Final N
+ON C.curso_Id = N.curso_Id
+WHERE N.bimestre = 1
+AND N.cui_Alumno = '111'
+AND C.curso_Id IN(
+    SELECT curso_Id
+    FROM t_Interseccion_Curso_Grado
+    WHERE grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '111')
+);
+
+
+SELECT C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
+FROM t_Curso_Materia C
+LEFT JOIN t_Nota_Final N
+ON C.curso_Id = N.curso_Id
+WHERE C.curso_Id IN(
+    SELECT curso_Id
+    FROM t_Interseccion_Curso_Grado
+    WHERE grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '1')
+);
+
+
+
+
+
+
+
+SELECT C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
+FROM t_Interseccion_Curso_Grado I
+LEFT JOIN t_Curso_Materia C
+ON I.curso_Id = C.curso_Id
+LEFT JOIN t_Nota_Final N
+ON I.curso_Id = N.curso_Id
+WHERE I.grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '111')
+AND N.bimestre = 1
+AND N.cui_Alumno = '111';
+
+
+--aqui vamos
+
+
 
 
 

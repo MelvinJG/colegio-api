@@ -175,6 +175,90 @@ class tareaAnuncioController {
             res.status(estado).json(response);
         }
     }
+
+    async subirNotasFinales(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`INSERT INTO t_Nota_Final SET ? `,[req.body]);
+            if(queryResponse.length <= 0 || queryResponse.affectedRows != 1){
+                r = Message._422_INTERNAL_ERROR;
+                statusResponse = Message._422_INTERNAL_ERROR.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = 'Notas Subidas Correctamente';
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
+    async validarNotasFinales(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT *
+                FROM t_Nota_Final
+                WHERE cui_Alumno = '${req.params.cuiAlumno}'
+                AND curso_Id = ${req.params.cursoID} 
+                AND bimestre = ${req.params.bimestre}`);
+            // if(queryResponse.length <= 0){
+            //     r = Message._404_NOT_FOUND;
+            //     r.model!.message = "Notas no Subidas.";
+            //     statusResponse = Message._404_NOT_FOUND.code;
+            // }
+            // else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            // }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
+    async getNotasFinalesAlumno(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`SELECT C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
+                FROM t_Interseccion_Curso_Grado I
+                LEFT JOIN t_Curso_Materia C
+                ON I.curso_Id = C.curso_Id
+                LEFT JOIN t_Nota_Final N
+                ON I.curso_Id = N.curso_Id
+                WHERE I.grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '${req.params.cuiAlumno}')
+                AND N.bimestre = ${req.params.bimestre}
+                AND N.cui_Alumno = '${req.params.cuiAlumno}'`);
+            if(queryResponse.length <= 0){
+                const queryResponseEmpty = await db.query(`SELECT C.nombre_Curso, NULL AS punteo_Zona, NULL AS punteo_Examen, NULL AS punteo_Final
+                    FROM t_Interseccion_Curso_Grado I
+                    LEFT JOIN t_Curso_Materia C
+                    ON I.curso_Id = C.curso_Id
+                    WHERE I.grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '${req.params.cuiAlumno}')`);
+                if(queryResponseEmpty.length <= 0){
+                    r = Message._404_NOT_FOUND;
+                    r.model!.message = "Cursos No Encontrados.";
+                    statusResponse = Message._404_NOT_FOUND.code;
+                } else {
+                    r = Message._200_OPERATION_SUCCESSFUL;
+                    r.model!.data = queryResponseEmpty;
+                    statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+                }
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = queryResponse;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
 }
 
 const TareaAnuncioController = new tareaAnuncioController();
