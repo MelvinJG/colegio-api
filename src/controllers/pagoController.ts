@@ -83,7 +83,7 @@ class pagoController {
 
     async getAllPagosApp(req: Request, res: Response){
         try{
-            const queryResponse = await db.query(`SELECT CP.comprobante_Id, A.cui_Alumno, A.nombre, G.grado, M.mes, CP.img_Comprobante, MM.mes AS mesUltimoPago
+            const queryResponse = await db.query(`SELECT CP.comprobante_Id, A.cui_Alumno, A.nombre, G.grado, M.mes, M.mes_Id, CP.img_Comprobante, MM.mes AS mesUltimoPago, CP.monto
                 FROM t_Comprobante_De_Pago CP
                 INNER JOIN t_Estado E
                 ON CP.estado_Id = E.estado_Id
@@ -97,7 +97,8 @@ class pagoController {
                 ON A.detalle_Ultimo_Pago = P.pago_Id
                 LEFT JOIN t_Mes MM
                 ON P.mes_Id = MM.mes_Id
-                WHERE CP.estado_Id = 1`);
+                WHERE CP.estado_Id = 1
+                ORDER BY CP.comprobante_Id ASC`);
             // if(queryResponse.length <= 0){
             //     r = Message._404_NOT_FOUND;
             //     r.model!.message = "Ninguna Solicitud de Pago Encontrada.";
@@ -124,7 +125,8 @@ class pagoController {
                 ON CP.estado_Id = E.estado_Id
                 INNER JOIN t_Mes M
                 ON CP.mes_Id = M.mes_Id
-                WHERE CP.cui_Alumno = ?`,req.params.cuiAlumno);
+                WHERE CP.cui_Alumno = ?
+                ORDER BY CP.comprobante_Id DESC`,req.params.cuiAlumno);
             // if(queryResponse.length <= 0){
             //     r = Message._404_NOT_FOUND;
             //     r.model!.message = "Ninguna Solicitud de Pago Encontrada.";
@@ -192,6 +194,25 @@ class pagoController {
             } else {
                 r = Message._200_OPERATION_SUCCESSFUL;
                 r.model!.data = `El comprobante No. ${req.params.comprobanteID} fue Rechazado.`;
+                statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
+            }
+            res.status(statusResponse).json(r.model);
+        }
+        catch(err){
+            const {estado, response} = setError(err);
+            res.status(estado).json(response);
+        }
+    }
+
+    async aceptarComprobante(req: Request, res: Response){
+        try{
+            const queryResponse = await db.query(`UPDATE t_Comprobante_De_Pago SET ? , estado_Id = 2, fecha_Respuesta = now() WHERE comprobante_Id = ?`,[req.body,req.params.comprobanteID]);
+            if(queryResponse.length <= 0 || queryResponse.affectedRows != 1){
+                r = Message._422_INTERNAL_ERROR;
+                statusResponse = Message._422_INTERNAL_ERROR.code;
+            } else {
+                r = Message._200_OPERATION_SUCCESSFUL;
+                r.model!.data = `El comprobante No. ${req.params.comprobanteID} fue Aceptado.`;
                 statusResponse = Message._200_OPERATION_SUCCESSFUL.code;
             }
             res.status(statusResponse).json(r.model);

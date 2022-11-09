@@ -16,6 +16,7 @@ class pagoRoute {
         this.router.get('/countAllPagosApp',PagoController.countAllPagosApp);
         this.router.put('/cancelarEnvio/:comprobanteID',PagoController.cancelarEnvio);
         this.router.put('/rechazarComprobante/:comprobanteID',PagoController.rechazarComprobante);
+        this.router.put('/aceptarComprobante/:comprobanteID',PagoController.aceptarComprobante);
     }
 }
 const PagoRoute = new pagoRoute();
