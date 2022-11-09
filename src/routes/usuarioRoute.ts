@@ -23,6 +23,7 @@ class userRoute {
         /*RUTA PADRE /api/usuarioAuth */
         this.router.get('/getUsuarios',UserController.getUsuarios);
         this.router.post('/singin',UserController.singin);
+        this.router.put('/adminPerfil/:idUsuario/:tipoCambio',UserController.adminPerfil);
         this.router.post('/test/:id',this.verifyToken,UserController.test);
     }
 

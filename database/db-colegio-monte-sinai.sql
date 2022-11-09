@@ -373,18 +373,20 @@ CREATE TABLE t_Usuario(
     userName VARCHAR(20) NOT NULL PRIMARY KEY,
     pass VARCHAR(20) NOT NULL,
     id_usuario VARCHAR(20) NULL,
-    roleId VARCHAR(7) NOT NULL
+    roleId VARCHAR(7) NOT NULL,
+    fecha_Creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_Actualizacion TIMESTAMP DEFAULT NULL
 );
 -- CUANDO ES ADMI NNO IMPORTA SI TIENE REGISTRO PREVIO EN LAS TABLAS (EMPLEADO O ALUMNO) PORQUE PUEDE VER TODO SIN ESTAR LIGADO AL DPI O CUI
 -- id_usuario - ES EL CUI O DPI QUE LIGA AL USUARIO A SU REGISTRO DE LAS TABLAS (EMPLEADO O ALUMNO)
-INSERT INTO t_Usuario VALUES('melvin_pro','admin',null,'admin');
-INSERT INTO t_Usuario VALUES('admin','admin',null,'admin');
-INSERT INTO t_Usuario VALUES('prof','prof','EMP-321','prof');
-INSERT INTO t_Usuario VALUES('ING','ING','ING','prof');
-INSERT INTO t_Usuario VALUES('user','user','Alum1','user');
-INSERT INTO t_Usuario VALUES('7899','7899','7899','user');
-INSERT INTO t_Usuario VALUES('111','111','111','user');
-INSERT INTO t_Usuario VALUES('2','2','2','user');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('melvin_pro','admin',null,'admin');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('admin','admin',null,'admin');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('prof','prof','EMP-321','prof');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('ING','ING','ING','prof');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('user','user','Alum1','user');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('7899','7899','7899','user');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('111','111','111','user');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('2','2','2','user');
 
 
 --ROLES --
