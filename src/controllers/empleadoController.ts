@@ -24,6 +24,7 @@ class empleadoController {
                     statusResponse = Message._422_INTERNAL_ERROR.code;
                 } else {
                     if(esProfesor !== null){  //Es profesor
+                        await db.query(`INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('${DPI_Empleado}','${DPI_Empleado}','${DPI_Empleado}','prof')`);
                         for(const index in esProfesor){
                             const finalResultInsertINTER = Object.assign({dpi_Empleado: DPI_Empleado},esProfesor[index]);
                             //Insertamos en la tabla t_Interseccion_Prof_Grado_Curso cada curso con su respectivo grado

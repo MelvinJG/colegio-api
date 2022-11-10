@@ -76,6 +76,7 @@ class alumnoEncargadoController {
             const grado_ID = req.body.grado_Id;
             const cuiAlumno = req.body.cui_Alumno;
             const queryResponse = await db.query(`INSERT INTO t_Alumno SET ? `,[req.body]);
+            await db.query(`INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('${cuiAlumno}','${cuiAlumno}','${cuiAlumno}','user')`);
             if(queryResponse.length <= 0 || queryResponse.affectedRows != 1){
                 r = Message._422_INTERNAL_ERROR;
                 statusResponse = Message._422_INTERNAL_ERROR.code; //Validar Envio de Mensaje "No se puede agregar al alumnos"
@@ -85,14 +86,14 @@ class alumnoEncargadoController {
                     //Grado no encontrado || EJ. Cuando haya dos registron con mismo Id (No pasará por la primary key pero por si acaso XD)
                     r = Message._422_INTERNAL_ERROR;
                     statusResponse = Message._422_INTERNAL_ERROR.code; //Validar Envio de Mensaje "No se puede agregar al alumnos"
-                    await db.query(`DELETE FROM t_Alumno WHERE cui_Alumno = ${cuiAlumno}`);
+                    await db.query(`DELETE FROM t_Alumno WHERE cui_Alumno = '${cuiAlumno}'`);
                 } else {
                     // 200 - OK
                     const queryUpdate = await db.query(`UPDATE t_Grado SET cantidad_Alumnos = (${cantidadActualAlumnos[0].cantidad_Alumnos} + 1) WHERE grado_Id = ${grado_ID}`);
                     if(queryUpdate.length <= 0 || queryUpdate.affectedRows != 1){
                         r = Message._422_INTERNAL_ERROR;
                         statusResponse = Message._422_INTERNAL_ERROR.code; //Validar Envio de Mensaje "No se puede agregar al alumnos"
-                        await db.query(`DELETE FROM t_Alumno WHERE cui_Alumno = ${cuiAlumno}`);
+                        await db.query(`DELETE FROM t_Alumno WHERE cui_Alumno = '${cuiAlumno}'`);
                     } else {
                         // 200 - OK
                         r = Message._200_OPERATION_SUCCESSFUL;
