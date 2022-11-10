@@ -482,7 +482,35 @@ CREATE TABLE t_Comprobante_De_Pago(
 
 
 
+
+--C O O L
+SELECT COUNT(1) AS coutSolventes
+FROM t_Alumno A
+LEFT JOIN t_Pago_Colegio PC
+ON A.detalle_Ultimo_Pago = PC.pago_Id
+WHERE IFNULL(PC.fecha_Pago,'2000-07-08') BETWEEN CAST(DATE_FORMAT(NOW() ,'%Y-%m-01') AS DATE) AND LAST_DAY(NOW())
+UNION ALL
+SELECT COUNT(1)
+FROM t_Alumno A
+LEFT JOIN t_Pago_Colegio PC
+ON A.detalle_Ultimo_Pago = PC.pago_Id
+WHERE IFNULL(PC.fecha_Pago,'2000-07-08') NOT BETWEEN CAST(DATE_FORMAT(NOW() ,'%Y-%m-01') AS DATE) AND LAST_DAY(NOW())
+--C O O L
+
+
+
+
+
+
+
+
+
+CAST(DATE_FORMAT(NOW() ,'%Y-%m-01') AS DATE) AS 'PRIMER DIA DEL MES'
+LAST_DAY(NOW()) AS 'ULTIMO DIA DEL MES'
+MONTH(CURRENT_DATE()) AS 'MES ACTUAL'
+
 --AQUI VAMOS
+
 
 
 

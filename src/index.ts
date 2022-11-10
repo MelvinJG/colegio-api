@@ -8,6 +8,7 @@ import empleadoRoute from './routes/empleadoRoute';
 import pagoRoute from './routes/pagoRoute';
 import userRoute from './routes/usuarioRoute';
 import tareaAnuncioRoute from './routes/tareaAnuncioRoute';
+import reporteRoute from './routes/reporteRoute';
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -35,6 +36,7 @@ class Server{
         this.app.use('/api/pago',pagoRoute);
         this.app.use('/api/usuarioAuth',userRoute);
         this.app.use('/api/anuncioTarea',tareaAnuncioRoute);
+        this.app.use('/api/reporteADMIN',reporteRoute);
     }
     start(): void{
         this.app.listen(this.app.get('port'), () => {
