@@ -500,6 +500,7 @@ WHERE IFNULL(PC.fecha_Pago,'2000-07-08') NOT BETWEEN CAST(DATE_FORMAT(NOW() ,'%Y
 
 
 
+UPDATE t_Pago_Salarial SET fecha_Pago = '2022-10-15', monto = 5000 WHERE pago_Id = 11;
 
 
 
@@ -519,49 +520,44 @@ MONTH(CURRENT_DATE()) AS 'MES ACTUAL'
 
 
 
-SELECT C.nombre_Curso, IFNULL(N.punteo_Zona,NULL), IFNULL(N.punteo_Examen,NULL), IFNULL(N.punteo_Final,NULL)
+--N.cui_Alumno, C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
+SELECT A.cui_Alumno, C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
 FROM t_Curso_Materia C
+LEFT JOIN t_Interseccion_Curso_Grado I
+ON I.curso_Id = C.curso_Id
+LEFT JOIN t_Alumno A
+ON A.grado_Id = I.grado_Id
 LEFT JOIN t_Nota_Final N
 ON C.curso_Id = N.curso_Id
-WHERE N.bimestre = 1
-AND N.cui_Alumno = '111'
-AND C.curso_Id IN(
-    SELECT curso_Id
-    FROM t_Interseccion_Curso_Grado
-    WHERE grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '111')
-);
+WHERE A.cui_Alumno = '111'
+AND N.bimestre = 2;
 
 
-SELECT C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
-FROM t_Curso_Materia C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 LEFT JOIN t_Nota_Final N
-ON C.curso_Id = N.curso_Id
-WHERE C.curso_Id IN(
-    SELECT curso_Id
-    FROM t_Interseccion_Curso_Grado
-    WHERE grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '1')
-);
+ON I.curso_Id = N.curso_Id;
+WHERE I.grado_Id = 1;
 
 
+SELECT * FROM t_Nota_Final 
 
-
-
-
-
-SELECT C.nombre_Curso, N.punteo_Zona, N.punteo_Examen, N.punteo_Final
-FROM t_Interseccion_Curso_Grado I
+FROM  I
 LEFT JOIN t_Curso_Materia C
 ON I.curso_Id = C.curso_Id
 LEFT JOIN t_Nota_Final N
 ON I.curso_Id = N.curso_Id
-WHERE I.grado_Id = (SELECT grado_Id FROM t_Alumno WHERE cui_Alumno = '111')
-AND N.bimestre = 1
-AND N.cui_Alumno = '111';
-
-
---aqui vamos
-
-
-
-
 

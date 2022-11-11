@@ -17,12 +17,14 @@ const s3 = new S3({
 
 //Function to uploads a file to Amazon S3
 export const uploadFile = (file: any, originalName: string) => {
+    let contentType = file.mimetype
     const fileStream = fs.createReadStream(file.path);
     const uploadParams: any = {
         ACL: "public-read",
         Bucket: `${bucketName}/Fondos`,///foto-alumnos
         Body: fileStream,
-        Key: `${file.filename}${originalName}`
+        Key: `${file.filename}${originalName}`,
+        ContentType: contentType
     }
     return s3.upload(uploadParams).promise();
 }

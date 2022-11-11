@@ -51,7 +51,7 @@ class userController {
                 statusResponse = Message._422_INTERNAL_ERROR.code;
             } else { 
                 let data = JSON.parse(JSON.stringify(queryResponse[0]));
-                const token = jwt.sign(data, process.env.TOKEN_SECRET, {expiresIn: '0.5h'})
+                const token = jwt.sign(data, process.env.TOKEN_SECRET, {expiresIn: '12h'})
                 r = Message._200_OPERATION_SUCCESSFUL;
                 r.model!.data = {token}//queryResponse[0]
                 statusResponse = Message._200_OPERATION_SUCCESSFUL.code;

@@ -26,7 +26,7 @@ class reporteController {
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Colegio
-                WHERE fecha_Pago BETWEEN '2022-04-01' AND '2022-04-31'
+                WHERE fecha_Pago BETWEEN '2022-04-01' AND '2022-04-30'
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Colegio
@@ -34,7 +34,7 @@ class reporteController {
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Colegio
-                WHERE fecha_Pago BETWEEN '2022-06-01' AND '2022-06-31'
+                WHERE fecha_Pago BETWEEN '2022-06-01' AND '2022-06-30'
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Colegio
@@ -46,7 +46,7 @@ class reporteController {
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Colegio
-                WHERE fecha_Pago BETWEEN '2022-09-01' AND '2022-09-31'
+                WHERE fecha_Pago BETWEEN '2022-09-01' AND '2022-09-30'
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Colegio
@@ -74,7 +74,7 @@ class reporteController {
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Salarial
-                WHERE fecha_Pago BETWEEN '2022-04-01' AND '2022-04-31'
+                WHERE fecha_Pago BETWEEN '2022-04-01' AND '2022-04-30'
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Salarial
@@ -82,7 +82,7 @@ class reporteController {
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Salarial
-                WHERE fecha_Pago BETWEEN '2022-06-01' AND '2022-06-31'
+                WHERE fecha_Pago BETWEEN '2022-06-01' AND '2022-06-30'
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Salarial
@@ -94,7 +94,7 @@ class reporteController {
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Salarial
-                WHERE fecha_Pago BETWEEN '2022-09-01' AND '2022-09-31'
+                WHERE fecha_Pago BETWEEN '2022-09-01' AND '2022-09-30'
                 UNION ALL
                 SELECT IFNULL(SUM(monto),0)
                 FROM t_Pago_Salarial
