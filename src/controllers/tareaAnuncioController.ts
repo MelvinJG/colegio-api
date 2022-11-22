@@ -10,7 +10,7 @@ let statusResponse: number;
 class tareaAnuncioController {
     async getTareaAnuncio(req: Request, res: Response){
         try{
-            const queryResponse = await db.query(`SELECT A.tipo, A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo
+            const queryResponse = await db.query(`SELECT A.tipo, A.titulo, A.descripcion, G.grado, C.nombre_Curso, A.punteo, date_format(A.fecha_Entrega,"%d-%m-%Y") AS fechaEnt, date_format(A.fecha_Vencimiento,"%d-%m-%Y") AS fechaVen
             FROM t_Anuncio_Tarea A
             LEFT JOIN t_Grado G
             ON A.grado_Id = G.grado_Id

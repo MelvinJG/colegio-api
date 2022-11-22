@@ -387,6 +387,7 @@ INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('user','user','
 INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('7899','7899','7899','user');
 INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('111','111','111','user');
 INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('2','2','2','user');
+INSERT INTO t_Usuario(userName, pass, id_usuario, roleId) VALUES('1','1','1','user');
 
 
 --ROLES --
